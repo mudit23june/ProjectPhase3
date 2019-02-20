@@ -36,7 +36,7 @@ public class TestWallet {
 		
 		
 	}
-	@Test
+	@Test(expected=com.capgemini.exception.DuplicatePhoneNo.class)
 	public void test3() throws DuplicatePhoneNo, PhoneNoDoesNotExist 
 	{
 		ws.createAccount("Mudit", "1",new BigDecimal("10000.0"));

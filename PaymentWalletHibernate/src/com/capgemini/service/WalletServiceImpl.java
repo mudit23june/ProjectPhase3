@@ -34,15 +34,19 @@ public class WalletServiceImpl implements WalletService
 	public Customer fundTransfer(String sourceMobileNumber, String targetMobileNumber, BigDecimal amount) throws PhoneNoDoesNotExist
 	{
 		Customer c;
-		if(walletRepo.findOne(sourceMobileNumber)==null)
+		if(walletRepo.findOne(sourceMobileNumber)==null || walletRepo.findOne(targetMobileNumber)==null)
 			throw new PhoneNoDoesNotExist();
-		
-		if(walletRepo.findOne(targetMobileNumber)==null)
-			throw new PhoneNoDoesNotExist();
-		
-		this.depositAmount(targetMobileNumber, amount);
-		c = this.withdrawAmount(sourceMobileNumber, amount);
-		return walletRepo.updateBal(c);
+		else if(sourceMobileNumber.equals(targetMobileNumber))
+		{
+			System.out.println("Source and target mobile numbers can't be same");
+			return null;
+		}
+		else
+		{
+			this.depositAmount(targetMobileNumber, amount);
+			c = this.withdrawAmount(sourceMobileNumber, amount);
+			return walletRepo.updateBal(c);
+		}
 	}
 
 	@Override

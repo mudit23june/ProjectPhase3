@@ -12,18 +12,13 @@ public class WalletRepoImpl implements WalletRepo
 {
 	@Override
 	public boolean save(Customer customer) throws DuplicatePhoneNo
-	{		
-		System.out.println(customer);
+	{	
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Empl");
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 		if (entitymanager.find(Customer.class, customer.getMobileNumber()) == null)
 		{
-			Customer cust = new Customer();
-			cust.setName(customer.getName());
-			cust.setMobileNumber(customer.getMobileNumber());
-			cust.setWallet(customer.getWallet());
-			entitymanager.persist(cust);
+			entitymanager.persist(customer);
 			entitymanager.getTransaction().commit();
 			entitymanager.close();
 			emfactory.close();
